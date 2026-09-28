@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+FitBuddy – All Users
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<section class="card">
+
+    <h1>
+        All Users
+    </h1>
+
+
+    <p class="notice">
+
+        Admin-only view.
+        Keep the token private.
+
+    </p>
+
+
+    {% if users %}
+
+
+    <div class="table-wrap">
+
+
+        <table>
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        User
+                    </th>
+
+                    <th>
+                        Profile
+                    </th>
+
+                    <th>
+                        Goal
+                    </th>
+
+                    <th>
+                        Plans
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+            {% for user in users %}
+
+
+            <tr>
+
+
+                <td>
+
+                    {{ user.name }}
+
+                    <br>
+
+                    <small>
+                        {{ user.user_id }}
+                    </small>
+
+                </td>
+
+
+                <td>
+
+                    Age {{ user.age }}
+
+                    <br>
+
+                    {{ user.weight or "—" }} kg
+
+                </td>
+
+
+                <td>
+
+                    {{ user.goal }}
+
+                    <br>
+
+                    {{ user.intensity }}
+
+                </td>
+
+
+                <td>
+
+
+                    {% for plan in user.plans %}
+
+
+                    <details>
+
+                        <summary>
+
+                            Plan #{{ plan.id }}
+
+                            {% if plan.updated_plan %}
+
+                            (updated)
+
+                            {% endif %}
+
+                        </summary>
+
+
+                        <pre>
+
+{{ plan.updated_plan or plan.original_plan }}
+
+                        </pre>
+
+
+                        {% if plan.feedback %}
+
+                        <p>
+
+                            <b>
+                                Feedback:
+                            </b>
+
+                            {{ plan.feedback }}
+
+                        </p>
+
+                        {% endif %}
+
+
+                    </details>
+
+
+                    {% endfor %}
+
+
+                </td>
+
+
+                <td>
+
+
+                    <form
+                        action="/admin/delete/{{ user.user_id }}"
+                        method="post"
+                    >
+
+                        <input
+                            type="hidden"
+                            name="token"
+                            value="{{ token }}"
+                        >
+
+
+                        <button
+                            class="danger"
+                            type="submit"
+                        >
+
+                            Delete
+
+                        </button>
+
+                    </form>
+
+
+                </td>
+
+
+            </tr>
+
+
+            {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+    {% else %}
+
+
+    <p>
+        No users yet.
+    </p>
+
+
+    {% endif %}
+
+
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+FitBuddy – Admin
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="card narrow">
+
+    <h1>
+        Admin Dashboard
+    </h1>
+
+
+    <p>
+
+        {{ message }}
+
+    </p>
+
+
+    <form
+        action="/view-all-users"
+        method="get"
+    >
+
+        <label>
+
+            Admin Token
+
+            <input
+                type="password"
+                name="token"
+                required
+            >
+
+        </label>
+
+
+        <button type="submit">
+
+            Open Dashboard
+
+        </button>
+
+    </form>
+
+</section>
+
+{% endblock %}

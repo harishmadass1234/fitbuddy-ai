@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+FitBuddy – Your Plan
+
+{% endblock %}
+
+
+{% block content %}
+
+
+{% if message %}
+
+<div class="success">
+
+    {{ message }}
+
+</div>
+
+{% endif %}
+
+
+<section class="card">
+
+    <p class="eyebrow">
+        PERSONALIZED PLAN
+    </p>
+
+    <h1>
+        {{ user.name }}'s FitBuddy Plan
+    </h1>
+
+
+    <div class="profile">
+
+        <span>
+            <b>User ID:</b>
+            {{ user.user_id }}
+        </span>
+
+        <span>
+            <b>Age:</b>
+            {{ user.age }}
+        </span>
+
+        <span>
+            <b>Goal:</b>
+            {{ user.goal }}
+        </span>
+
+        <span>
+            <b>Intensity:</b>
+            {{ user.intensity }}
+        </span>
+
+    </div>
+
+</section>
+
+
+{% if plan is mapping %}
+
+
+<section class="card">
+
+    <h2>
+        {{ plan.title }}
+    </h2>
+
+
+    <p class="notice">
+
+        {{ plan.safety_note }}
+
+    </p>
+
+
+    <div class="days">
+
+
+        {% for day in plan.days %}
+
+
+        <article class="day">
+
+            <h3>
+
+                {{ day.day }}
+                —
+                {{ day.focus }}
+
+            </h3>
+
+
+            <p>
+
+                <b>Warm-up:</b>
+
+                {{ day.warmup }}
+
+            </p>
+
+
+            <p>
+
+                <b>Main Workout:</b>
+
+            </p>
+
+
+            <ul>
+
+                {% for item in day.main_workout %}
+
+                <li>
+                    {{ item }}
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+
+            <p>
+
+                <b>Cooldown:</b>
+
+                {{ day.cooldown }}
+
+            </p>
+
+        </article>
+
+
+        {% endfor %}
+
+
+    </div>
+
+</section>
+
+
+{% else %}
+
+
+<section class="card">
+
+    <pre>{{ plan }}</pre>
+
+</section>
+
+
+{% endif %}
+
+
+<section class="card tip">
+
+    <h2>
+        Nutrition / Recovery Tip
+    </h2>
+
+    <p>
+        {{ nutrition_tip }}
+    </p>
+
+</section>
+
+
+<section class="card">
+
+    <h2>
+        Update Your Plan
+    </h2>
+
+    <p>
+        Tell FitBuddy what you want changed.
+    </p>
+
+
+    <form
+        action="/submit-feedback"
+        method="post"
+    >
+
+        <input
+            type="hidden"
+            name="user_id"
+            value="{{ user.user_id }}"
+        >
+
+
+        <textarea
+            name="feedback"
+            required
+            maxlength="1000"
+            placeholder="Example: Make the sessions easier and add more mobility."
+        ></textarea>
+
+
+        <button type="submit">
+
+            Update Plan
+
+        </button>
+
+    </form>
+
+</section>
+
+
+{% endblock %}
